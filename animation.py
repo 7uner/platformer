@@ -10,7 +10,7 @@ screen = pygame.display.set_mode((640, 480))
 pygame.display.set_caption("Blit Example")
 
 # Load image
-sprite_sheet = pygame.image.load(Path("../../projects/images/nyan_cat.png").resolve().as_posix())
+sprite_sheet = pygame.image.load(Path("images/nyan_cat.png").resolve().as_posix())
 
 #TODO:based on the new sprite size and loation, change the width and height appropriately
 frame_width = 150
