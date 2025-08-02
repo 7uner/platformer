@@ -17,11 +17,15 @@ title_screen_frame_width = 150
 title_screen_frame_height = 100
 rocket_frame_width = 116.5
 rocket_frame_height = 50
+super_cat_width = 80
+super_cat_height = 40
 
 title_screen_sprite_y_location = 0
 rocket_sprite_y_location = 265
+super_cat_y_location = 220
 title_screen_frames = []
 rocket_frames = []
+super_frames = []
 
 for i in range(6):
     frame = sprite_sheet.subsurface(pygame.Rect(i * title_screen_frame_width, title_screen_sprite_y_location,
@@ -34,9 +38,15 @@ for i in range(4):
     frame = sprite_sheet.subsurface(pygame.Rect(i * rocket_frame_width, rocket_sprite_y_location,
                                                 rocket_frame_width, rocket_frame_height))
     rocket_frames.append(frame)
-
+for i in range(4):
+    print(i * super_cat_width, super_cat_y_location,
+                                                super_cat_width, super_cat_height)
+    frame = sprite_sheet.subsurface(pygame.Rect(i * super_cat_width,super_cat_y_location,
+                                                super_cat_width, super_cat_height))
+    super_frames.append(frame)
 title_screen_current_frame = 0
 rocket_current_frame = 0
+super_current_frame = 0
 animation_speed = 0.1 # controls how fast the animation changes
 frame_timer = 0
 clock = pygame.time.Clock()
@@ -56,6 +66,7 @@ while running:
         #progress each sprite by 1 frame
         title_screen_current_frame = (title_screen_current_frame + 1) % len(title_screen_frames)
         rocket_current_frame = (rocket_current_frame + 1) % len(rocket_frames)
+        super_current_frame = (super_current_frame + 1) % len(super_frames)
 
     # Fill screen with white color before bliting
     screen.fill((255, 255, 255))
@@ -63,6 +74,7 @@ while running:
     # Blit image at (100, 150)
     screen.blit(title_screen_frames[title_screen_current_frame], (50, 100))
     screen.blit(rocket_frames[rocket_current_frame], (250, 100))
+    screen.blit(super_frames[super_current_frame], (400, 100))
 
     # Update display
     pygame.display.flip()
