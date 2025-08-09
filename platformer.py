@@ -56,6 +56,10 @@ while running:
         if player_x > WIDTH/3 * 2:
             scroll -= 10
             player_x -= 10
+    # TODO: add a key press for the space bar, when pressed, allow the player_y to increase, at a certain height,
+    # todo: start reducing their height, this creates a jumping effect
+    if keys[pygame.K_SPACE]:
+        pass
 
     # drawing
     screen.fill((0, 0, 0))
