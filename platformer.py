@@ -20,9 +20,10 @@ floor_height = 137
 # variables
 player_x = WIDTH/2
 player_y = HEIGHT - floor_height
+player_speed = 7
+jump_speed = 10
 deltaY = 0
 deltaX = 0
-max_jump_height = HEIGHT - floor_height - 160
 acceleration = 0
 scroll = 0
 # jumpstate 1: still 2: jumping up 3: jumping down 4: second jump
@@ -52,6 +53,7 @@ background = pygame.transform.scale(background, (background_absolute_width, HEIG
 # set up game clock
 clock = pygame.time.Clock()
 
+
 def handleInput():
     global player_x, scroll, jump_state, number_of_jumps, deltaY, acceleration, running, deltaX
     for event in pygame.event.get():
@@ -60,19 +62,19 @@ def handleInput():
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_a]:
-        deltaX = -10
+        deltaX = -player_speed
 
     if keys[pygame.K_d]:
-        deltaX = 10
+        deltaX = player_speed
 
     if keys[pygame.K_SPACE]:
         if jump_state == 1 and number_of_jumps > 0:
-            deltaY = -10
+            deltaY = -jump_speed
             acceleration = 0.3
             jump_state = 2
             number_of_jumps -= 1
         elif (jump_state == 3) and number_of_jumps > 0:
-            deltaY = -10
+            deltaY = -jump_speed
             acceleration = 0.3
             jump_state = 2
             number_of_jumps -= 1
@@ -170,7 +172,7 @@ def draw():
     pygame.display.flip()
 
 
-def generate_platforms(start_x=0, num=8):
+def generate_platforms(start_x=WIDTH/2+100, num=8):
     platforms = []
     x = start_x
     for i in range(num):
