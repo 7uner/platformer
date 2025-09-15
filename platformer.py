@@ -36,8 +36,8 @@ player = pygame.Rect(WIDTH // 2, HEIGHT - floor_height, 30, 80)
 
 # platforms
 platforms = []
-PLATFORM_MIN_WIDTH = 100
-PLATFORM_MAX_WIDTH = 200
+PLATFORM_MIN_WIDTH = 3
+PLATFORM_MAX_WIDTH = 7
 PLATFORM_HEIGHT = 30
 PLATFORM_GAP_Y = 120
 
@@ -49,7 +49,11 @@ pygame.display.set_caption("Platformer")
 # Load background image
 background = pygame.image.load(Path("images/background.png").resolve().as_posix())
 background = pygame.transform.scale(background, (background_absolute_width, HEIGHT))
-
+# load platform sprite
+platform_sprite = pygame.image.load(Path("images/tiles_spritesheet.png").resolve().as_posix())
+# extract sub surfaces that we need
+grass = platform_sprite.subsurface((648, 0, 70, 70))
+grass = pygame.transform.scale(grass, (PLATFORM_HEIGHT, PLATFORM_HEIGHT))
 # set up game clock
 clock = pygame.time.Clock()
 
@@ -163,7 +167,10 @@ def draw():
         i += 1
     pygame.draw.rect(screen, RED, player)
     for platform in platforms:
-        pygame.draw.rect(screen, BLACK, platform)
+        n = platform.width // 30
+        for i in range(n):
+            screen.blit(grass, (platform.x + i * 30, platform.y))
+
     # RESET THE SCROLL FRAME
     if abs(scroll) > background.get_width():
         scroll = 0
@@ -176,7 +183,7 @@ def generate_platforms(start_x=WIDTH/2+100, num=8):
     platforms = []
     x = start_x
     for i in range(num):
-        width = random.randint(PLATFORM_MIN_WIDTH, PLATFORM_MAX_WIDTH)
+        width = random.randint(PLATFORM_MIN_WIDTH, PLATFORM_MAX_WIDTH) * 30
         y = random.randint(200, HEIGHT - floor_height)
         platforms.append(pygame.Rect(x, y, width, PLATFORM_HEIGHT))
         x += width + random.randint(250, 500)
