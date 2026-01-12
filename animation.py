@@ -26,6 +26,7 @@ super_cat_y_location = 220
 title_screen_frames = []
 rocket_frames = []
 super_frames = []
+pika_frames = []
 
 for i in range(6):
     frame = sprite_sheet.subsurface(pygame.Rect(i * title_screen_frame_width, title_screen_sprite_y_location,
@@ -44,9 +45,23 @@ for i in range(4):
     frame = sprite_sheet.subsurface(pygame.Rect(i * super_cat_width,super_cat_y_location,
                                                 super_cat_width, super_cat_height))
     super_frames.append(frame)
+
+
+
+player_run = pygame.image.load(Path("images/pika_idle_left.png").resolve().as_posix())
+#player_run = player_sprite_sheet.subsurface(0, 382, 940, 160)
+
+fw = player_run.get_width()/8
+for i in range(8):
+    frame = player_run.subsurface(pygame.Rect(i * fw, 0,
+                                                fw, player_run.get_height()))
+    pika_frames.append(frame)
+
+frame = 0
 title_screen_current_frame = 0
 rocket_current_frame = 0
 super_current_frame = 0
+pika_current_frame = 0
 animation_speed = 0.1 # controls how fast the animation changes
 frame_timer = 0
 clock = pygame.time.Clock()
@@ -58,7 +73,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    dt = clock.tick(60) / 1000  # delta time in secondsw
+    dt = clock.tick(70) / 1000  # delta time in secondsw
     # Update frame timer
     frame_timer += dt
     if frame_timer >= animation_speed:
@@ -67,14 +82,16 @@ while running:
         title_screen_current_frame = (title_screen_current_frame + 1) % len(title_screen_frames)
         rocket_current_frame = (rocket_current_frame + 1) % len(rocket_frames)
         super_current_frame = (super_current_frame + 1) % len(super_frames)
+        pika_current_frame = (pika_current_frame + 1) % len(pika_frames)
 
     # Fill screen with white color before bliting
     screen.fill((255, 255, 255))
 
     # Blit image at (100, 150)
-    screen.blit(title_screen_frames[title_screen_current_frame], (50, 100))
-    screen.blit(rocket_frames[rocket_current_frame], (250, 100))
-    screen.blit(super_frames[super_current_frame], (400, 100))
+    #screen.blit(title_screen_frames[title_screen_current_frame], (50, 100))
+    #screen.blit(rocket_frames[rocket_current_frame], (250, 100))
+    #screen.blit(super_frames[super_current_frame], (400, 100))
+    screen.blit(pika_frames[pika_current_frame], (200, 50))
 
     # Update display
     pygame.display.flip()
